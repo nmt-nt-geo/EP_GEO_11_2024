@@ -12,3 +12,6 @@ Thumbs.db
 .vscode
 *.swp
 *.swo
+
+# Content files
+*_NT_*.txt
