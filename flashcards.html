@@ -56,44 +56,44 @@
 
     <script>
         // Embedded content
-        const learningGoals = [
-            "Du kennst den Unterschied zwischen Wetter und Klima.",
-            "Du kannst ein korrektes Walter-Klimadiagramm zeichnen.",
-            "Du kannst aus einem Klimadiagramm die einzelnen Werte herauslesen und ein Klimadiagramm interpretieren.",
-            "Du kannst die Durchschnittstemperatur eines Jahres und die Niederschlagssumme berechnen.",
-            "Du kannst die Begriffe \"arid\" und \"humid\" erklären.",
-            "Du kannst die 6 Klimatypen Europas beschreiben und in einer Karte ungefähr einzeichnen.",
-            "Du kannst Klimadiagramme den entsprechenden europäischen Klimatypen zuordnen.",
-            "Du kannst Abbildungen von Landschaften den europäischen Klimatypen zuordnen.",
-            "Du weisst von ausgewählten Städten in welcher Klimazone sie liegen.",
-            "Du kennst die 3 Klimaaufzählregeln und kannst diese genau erklären.",
-            "Du kennst die Unterschiede zwischen ozeanischem und kontinentalem Klima und kannst diese genau erklären und kennst die Gründe für die Entstehung dieser Unterschiede.",
-            "Du kennst die Besonderheiten der einzelnen Klimaregionen.",
-            "Du kannst die Begriffe \"Golfstrom\" und \"Nordatlantikstrom\" genau erklären, weisst, wie die Ströme entstehen und welche Folgen sie haben.",
-            "Du weisst, wie sich das Klima von Ostkanada von demjenigen in Westeuropa unterscheidet und kannst die Gründe dafür erklären.",
-            "Du weisst über das Arbeitsblatt \"Ein System aus vielen Strömen\" genau Bescheid und kannst die Strömungen einzeichnen und beschriften.",
-            "Du kennst den Inhalt der wahr/falsch-Aufgaben zum Golfstrom.",
-            "Du kennst die Diagramme zum Klimawandel, kannst sie beschreiben und erklären und weisst über die Fakten der Erderwärmung Bescheid."
+        const questions = [
+            "Lernziel 1<br><strong>Du kannst den Unterschied zwischen Wetter und Klima erklären.</strong>",
+            "Lernziel 2<br><strong>Du kannst ein Walter-Klimadiagramm zeichnen.</strong>",
+            "Lernziel 3<br><strong>Du kannst die Werte aus einem Klimadiagramm ablesen und interpretieren.</strong>",
+            "Lernziel 4<br><strong>Du kannst die Jahresdurchschnittstemperatur und die Niederschlagssumme berechnen.</strong>",
+            "Lernziel 5<br><strong>Du kannst die Begriffe 'arid' und 'humid' erklären.</strong>",
+            "Lernziel 6<br><strong>Du kannst die 6 europäischen Klimatypen beschreiben und auf einer Karte eintragen.</strong>",
+            "Lernziel 7<br><strong>Du kannst die Klimadiagramme den europäischen Klimatypen zuordnen.</strong>",
+            "Lernziel 8<br><strong>Du kannst die Landschaftsabbildungen den europäischen Klimatypen zuordnen.</strong>",
+            "Lernziel 9<br><strong>Du kannst die Städte ihren Klimazonen zuordnen.</strong>",
+            "Lernziel 10<br><strong>Du kennst die 3 Klimaaufzählregeln und kannst diese genau erklären.</strong>",
+            "Lernziel 11<br><strong>Du kannst die Unterschiede zwischen ozeanischem und kontinentalem Klima erklären und deren Ursachen benennen.</strong>",
+            "Lernziel 12<br><strong>Du kennst die Besonderheiten der einzelnen Klimaregionen (basierend auf 5 Filmausschnitten und dazugehörigen Aufgaben).</strong>",
+            "Lernziel 13<br><strong>Du kannst die Begriffe 'Golfstrom' und 'Nordatlantikstrom' erklären und weisst über deren Entstehung und Auswirkungen Bescheid.</strong>",
+            "Lernziel 14<br><strong>Du kannst erklären, warum Westeuropa und Ostkanada auf gleichen Breitengraden unterschiedliche Klimabedingungen aufweisen.</strong>",
+            "Lernziel 15<br><strong>Du kennst das Arbeitsblatt zu den Strömungssystemen im Atlantik.</strong>",
+            "Lernziel 16<br><strong>Du kennst den Inhalt der wahr/falsch-Aufgaben zum Golfstrom.</strong>",
+            "Lernziel 17<br><strong>Du kennst die Diagramme zum Klimawandel, kannst sie beschreiben und erklären und weisst über die Fakten der Erderwärmung Bescheid.</strong>"
         ];
 
         const shortAnswers = [
-            "Wetter: aktueller Zustand der Atmosphäre. Klima: durchschnittliche Wetterbedingungen über längeren Zeitraum.",
-            "Ein Diagramm, das Temperatur (rote Linie) und Niederschlag (blaue Säulen) über das Jahr zeigt. 10°C entsprechen 20mm Niederschlag.",
-            "Temperatur- und Niederschlagswerte für jeden Monat ablesen und interpretieren. Erkennen von Trocken- und Feuchtzeiten.",
-            "Temperatur: Monatswerte addieren und durch 12 teilen. Niederschlag: Monatswerte addieren.",
-            "Arid: trocken (Verdunstung > Niederschlag). Humid: feucht (Niederschlag > Verdunstung).",
-            "Mediterranes, ozeanisches, kontinentales, boreales, Tundra- und Gebirgsklima mit typischen Merkmalen und Regionen.",
-            "Anhand der Temperatur- und Niederschlagsmuster die Klimatypen erkennen und zuordnen.",
-            "Vegetation und Landschaftsmerkmale den entsprechenden Klimatypen zuordnen.",
-            "Beispiele: Rom (Mittelmeerklima), Stockholm (subpolares Klima), Berlin (Übergang ozeanisch-kontinental).",
-            "Breitenlage: Je weiter vom Äquator, desto kälter. Höhenlage: Je höher, desto kälter. Kontinentalität: Je weiter im Landesinneren, desto extremer.",
-            "Ozeanisch: geringe Temperaturschwankungen, viel Niederschlag. Kontinental: grosse Temperaturschwankungen, weniger Niederschlag.",
-            "Jede Region hat spezifische Merkmale bei Vegetation, Wetter und Landnutzung.",
-            "Golfstrom: warme Strömung von Karibik nach Norden. Nordatlantikstrom: Fortsetzung nach Europa, bringt mildes Klima.",
-            "Westeuropa hat durch Nordatlantikstrom milderes Klima als Ostkanada bei gleicher Breitenlage.",
-            "Kenntnis der wichtigsten Meeresströmungen und ihrer Verläufe im Atlantik.",
-            "Grundlegendes Wissen über Eigenschaften und Wirkungen des Golfstroms.",
-            "Verständnis der Klimawandeltrends: Temperaturanstieg, Meeresspiegelanstieg, veränderte Niederschlagsmuster."
+            "<strong>Wetter:</strong> Momentaner Zustand der Atmosphäre. <strong>Klima:</strong> Durchschnittliche Wetterbedingungen über längere Zeit.",
+            "<strong>Walter-Klimadiagramm:</strong> Grafische Darstellung von Temperatur und Niederschlag eines Ortes im Jahresverlauf.",
+            "<strong>Klimadiagramm-Interpretation:</strong> Temperatur- und Niederschlagswerte ablesen, humide und aride Phasen erkennen.",
+            "<strong>Berechnung:</strong> Jahresdurchschnittstemperatur = Summe aller Monatsmittel ÷ 12. Jahresniederschlag = Summe aller Monatswerte.",
+            "<strong>Arid:</strong> Trocken, wenig Niederschlag. <strong>Humid:</strong> Feucht, viel Niederschlag.",
+            "<strong>Europäische Klimatypen:</strong> Subpolar, Kontinental, Ozeanisch, Mediterran, Gebirge, Steppe.",
+            "<strong>Klimadiagramm-Zuordnung:</strong> Temperatur- und Niederschlagsmuster einem Klimatyp zuordnen.",
+            "<strong>Landschaftszuordnung:</strong> Vegetation und Landschaftsmerkmale einem Klimatyp zuordnen.",
+            "<strong>Städte-Klimazonen:</strong> Geografische Lage und klimatische Merkmale einer Stadt bestimmen.",
+            "<strong>Klimaaufzählregeln:</strong> Temperaturverlauf, Niederschlagsverteilung, Humidität/Aridität.",
+            "<strong>Ozeanisch vs. Kontinental:</strong> Meereseinfluss auf Temperatur und Niederschlag.",
+            "<strong>Klimaregionen:</strong> Besonderheiten der europäischen Klimazonen.",
+            "<strong>Golfstrom:</strong> Warme Meeresströmung, beeinflusst europäisches Klima.",
+            "<strong>Klimavergleich:</strong> Westeuropa vs. Ostkanada auf gleichen Breitengraden.",
+            "<strong>Strömungssysteme:</strong> Golfstrom, Nordatlantik-, Labrador- und Kanarenstrom.",
+            "<strong>Golfstrom-Bedeutung:</strong> Einfluss auf europäisches Klima.",
+            "<strong>Klimawandeltrends:</strong> Temperatur, CO₂, Extremwetter."
         ];
 
         const longAnswers = [
@@ -122,14 +122,13 @@
             const container = document.getElementById('flashcards-container');
             container.innerHTML = '';
 
-            learningGoals.forEach((goal, index) => {
+            questions.forEach((goal, index) => {
                 const card = document.createElement('div');
                 card.className = 'col-md-6 col-lg-4';
                 card.innerHTML = `
                     <div class="card h-100">
                         <div class="card-body">
-                            <h5 class="card-title">Lernziel ${index + 1}</h5>
-                            <p class="card-text">${goal}</p>
+                            <h5 class="card-title">${goal}</h5>
                             <div class="answer short-answer">${shortAnswers[index] || 'Keine kurze Antwort verfügbar'}</div>
                             <div class="answer long-answer">${longAnswers[index] || 'Keine ausführliche Antwort verfügbar'}</div>
                             <button class="btn btn-outline-primary mt-3" onclick="toggleAnswer(${index})">
