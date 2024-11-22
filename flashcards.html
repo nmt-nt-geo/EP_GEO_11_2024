@@ -1,0 +1,172 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>NT Klima Lernkarten</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <style>
+        .card {
+            cursor: pointer;
+            transition: transform 0.3s;
+        }
+        .card:hover {
+            transform: scale(1.02);
+        }
+        .answer {
+            display: none;
+        }
+        .btn-toggle {
+            margin: 5px;
+        }
+        .active-answer {
+            display: block;
+            animation: fadeIn 0.5s;
+        }
+        @keyframes fadeIn {
+            from { opacity: 0; }
+            to { opacity: 1; }
+        }
+    </style>
+</head>
+<body class="bg-light">
+    <div class="container py-5">
+        <h1 class="text-center mb-4">NT Klima Lernkarten</h1>
+        
+        <div class="text-center mb-4">
+            <button class="btn btn-primary btn-toggle" onclick="toggleAnswerType('short')">Kurze Antworten</button>
+            <button class="btn btn-secondary btn-toggle" onclick="toggleAnswerType('long')">Ausführliche Antworten</button>
+        </div>
+
+        <div id="flashcards-container" class="row g-4">
+            <!-- Flashcards will be dynamically inserted here -->
+        </div>
+    </div>
+
+    <script>
+        // Embedded content
+        const learningGoals = [
+            "Du kennst den Unterschied zwischen Wetter und Klima.",
+            "Du kannst ein korrektes Walter-Klimadiagramm zeichnen.",
+            "Du kannst aus einem Klimadiagramm die einzelnen Werte herauslesen und ein Klimadiagramm interpretieren.",
+            "Du kannst die Durchschnittstemperatur eines Jahres und die Niederschlagssumme berechnen.",
+            "Du kannst die Begriffe \"arid\" und \"humid\" erklären.",
+            "Du kannst die 6 Klimatypen Europas beschreiben und in einer Karte ungefähr einzeichnen.",
+            "Du kannst Klimadiagramme den entsprechenden europäischen Klimatypen zuordnen.",
+            "Du kannst Abbildungen von Landschaften den europäischen Klimatypen zuordnen.",
+            "Du weisst von ausgewählten Städten in welcher Klimazone sie liegen.",
+            "Du kennst die 3 Klimaaufzählregeln und kannst diese genau erklären.",
+            "Du kennst die Unterschiede zwischen ozeanischem und kontinentalem Klima und kannst diese genau erklären und kennst die Gründe für die Entstehung dieser Unterschiede.",
+            "Du kennst die Besonderheiten der einzelnen Klimaregionen.",
+            "Du kannst die Begriffe \"Golfstrom\" und \"Nordatlantikstrom\" genau erklären, weisst, wie die Ströme entstehen und welche Folgen sie haben.",
+            "Du weisst, wie sich das Klima von Ostkanada von demjenigen in Westeuropa unterscheidet und kannst die Gründe dafür erklären.",
+            "Du weisst über das Arbeitsblatt \"Ein System aus vielen Strömen\" genau Bescheid und kannst die Strömungen einzeichnen und beschriften.",
+            "Du kennst den Inhalt der wahr/falsch-Aufgaben zum Golfstrom.",
+            "Du kennst die Diagramme zum Klimawandel, kannst sie beschreiben und erklären und weisst über die Fakten der Erderwärmung Bescheid.",
+            "Du weisst über die Aufgabe zu den Quietsche-Enten genau Bescheid und kannst die Ergebnisse erklären.",
+            "Du weisst über das Arbeitsblatt \"Tiere nutzen den Strom\" genau Bescheid.",
+            "Du kennst die Begriffe der beiden Rätsel."
+        ];
+
+        const shortAnswers = [
+            "Wetter: aktueller Zustand der Atmosphäre. Klima: durchschnittliche Wetterbedingungen über längeren Zeitraum.",
+            "Ein Diagramm, das Temperatur (rote Linie) und Niederschlag (blaue Säulen) über das Jahr zeigt. 10°C entsprechen 20mm Niederschlag.",
+            "Temperatur- und Niederschlagswerte für jeden Monat ablesen und interpretieren. Erkennen von Trocken- und Feuchtzeiten.",
+            "Temperatur: Monatswerte addieren und durch 12 teilen. Niederschlag: Monatswerte addieren.",
+            "Arid: trocken (Verdunstung > Niederschlag). Humid: feucht (Niederschlag > Verdunstung).",
+            "Mediterranes, ozeanisches, kontinentales, boreales, Tundra- und Gebirgsklima mit typischen Merkmalen und Regionen.",
+            "Anhand der Temperatur- und Niederschlagsmuster die Klimatypen erkennen und zuordnen.",
+            "Vegetation und Landschaftsmerkmale den entsprechenden Klimatypen zuordnen.",
+            "Beispiele: Rom (Mittelmeerklima), Stockholm (subpolares Klima), Berlin (Übergang ozeanisch-kontinental).",
+            "Breitenlage: Je weiter vom Äquator, desto kälter. Höhenlage: Je höher, desto kälter. Kontinentalität: Je weiter im Landesinneren, desto extremer.",
+            "Ozeanisch: geringe Temperaturschwankungen, viel Niederschlag. Kontinental: grosse Temperaturschwankungen, weniger Niederschlag.",
+            "Jede Region hat spezifische Merkmale bei Vegetation, Wetter und Landnutzung.",
+            "Golfstrom: warme Strömung von Karibik nach Norden. Nordatlantikstrom: Fortsetzung nach Europa, bringt mildes Klima.",
+            "Westeuropa hat durch Nordatlantikstrom milderes Klima als Ostkanada bei gleicher Breitenlage.",
+            "Kenntnis der wichtigsten Meeresströmungen und ihrer Verläufe im Atlantik.",
+            "Grundlegendes Wissen über Eigenschaften und Wirkungen des Golfstroms.",
+            "Verständnis der Klimawandeltrends: Temperaturanstieg, Meeresspiegelanstieg, veränderte Niederschlagsmuster.",
+            "Verständnis über Ozeanströmungen anhand des Beispiels der schwimmenden Quietsche-Enten.",
+            "Wissen über die Nutzung von Meeresströmungen durch Meerestiere.",
+            "Kenntnis der Fachbegriffe aus den Rätseln zum Thema Klima."
+        ];
+
+        const longAnswers = [
+            "Wetter beschreibt den momentanen Zustand der Atmosphäre an einem bestimmten Ort (Temperatur, Niederschlag, Wind, etc.). Es kann sich innerhalb von Stunden oder Tagen ändern. Klima ist der durchschnittliche Zustand des Wetters über einen längeren Zeitraum (meist 30 Jahre) in einer Region. Beispiel: Heute in Zürich 25°C (Wetter) vs. Zürich hat gemässigtes Klima mit milden Wintern und warmen Sommern (Klima).",
+            "Ein Walter-Klimadiagramm zeigt Temperatur- und Niederschlagsverlauf über ein Jahr. Die Temperaturkurve wird rot, die Niederschlagssäulen blau dargestellt. Die Skalen sind so angepasst, dass 10°C Temperatur 20mm Niederschlag entsprechen. Dies ermöglicht das Erkennen von ariden und humiden Phasen im Jahresverlauf. Beispiel: Zürich zeigt höhere Niederschläge im Sommer und moderate Temperaturen im Winter.",
+            "Ablesen: Monatliche Temperatur- und Niederschlagswerte können direkt abgelesen werden. Interpretation: Erkennen von warmen/kalten Monaten, Trocken-/Feuchtzeiten und ariden/humiden Phasen. Wenn die Temperaturkurve über der Niederschlagskurve liegt, deutet dies auf aride Bedingungen hin.",
+            "Durchschnittstemperatur: Alle Monatswerte addieren und durch 12 teilen. Beispiel: (5+6+10+15+20+25+30+25+20+15+10+5)/12 = 15°C. Niederschlagssumme: Alle monatlichen Niederschlagswerte addieren. Beispiel: 50+40+60+70+80+90+100+90+80+70+60+50 = 840mm pro Jahr.",
+            "Arid bedeutet trocken, wenn die potenzielle Verdunstung grösser ist als der Niederschlag. Im Klimadiagramm: Temperaturkurve über Niederschlagskurve (z.B. Kairo). Humid bedeutet feucht, wenn der Niederschlag die potenzielle Verdunstung übersteigt. Im Klimadiagramm: Niederschlagskurve über Temperaturkurve (z.B. Singapur).",
+            "Detaillierte Beschreibung der 6 Klimatypen: 1) Subpolares Klima (Nordskandinavien): kalte Winter, kühle Sommer. 2) Kontinentales Klima (Osteuropa): heisse Sommer, kalte Winter. 3) Ozeanisches Klima (Westeuropa): milde Winter, kühle Sommer, ganzjährig Niederschlag. 4) Mittelmeerklima (Südeuropa): heisse, trockene Sommer, milde, feuchte Winter. 5) Gebirgsklima (Alpen): niedrige Temperaturen, hoher Niederschlag. 6) Steppenklima (Südosteuropa): geringer Niederschlag, grosse Temperaturunterschiede.",
+            "Die Zuordnung erfolgt anhand charakteristischer Merkmale: Mittelmeerklima zeigt heisse, trockene Sommer und milde, feuchte Winter. Ozeanisches Klima hat ausgeglichene Temperaturen und ganzjährigen Niederschlag. Kontinentales Klima zeigt grosse Temperaturschwankungen zwischen Sommer und Winter.",
+            "Typische Landschaftsmerkmale: Mittelmeerklima - Olivenhaine, Macchia. Ozeanisches Klima - Laubwälder, grüne Wiesen. Kontinentales Klima - Steppen, Laubwälder. Subpolares Klima - Tundra, Nadelwälder. Gebirgsklima - alpine Vegetation, Gletscher.",
+            "Detaillierte Beispiele: Rom (Mittelmeerklima: heisse Sommer, milde Winter), Stockholm (subpolares Klima: kurze Sommer, lange Winter), Berlin (Übergangsklima: Einflüsse von ozeanischem und kontinentalem Klima), London (ozeanisches Klima: milde Winter, kühle Sommer).",
+            "Breitenlage: Je weiter vom Äquator entfernt, desto geringer die Sonneneinstrahlung und damit kälter (Beispiel: Norwegen kälter als Spanien). Höhenlage: Pro 100m Höhenzunahme sinkt die Temperatur um ca. 0,6°C (Beispiel: Berggipfel kälter als Tal). Kontinentalität: Meere wirken ausgleichend auf Temperatur, daher grössere Schwankungen im Landesinneren (Beispiel: Moskau extremer als London).",
+            "Ozeanisches Klima hat durch Meeresnähe geringe Temperaturschwankungen (milde Winter, kühle Sommer) und hohe Niederschläge. Kontinentales Klima zeigt durch Meeresferne grosse Temperaturschwankungen (heisse Sommer, kalte Winter) und weniger Niederschlag. Entstehung durch unterschiedlichen Einfluss der Meere auf das Klima.",
+            "Spezifische Merkmale jeder Region: Mittelmeerraum (Olivenbäume, Macchia), Westeuropa (Laubwälder, Grünland), Osteuropa (Steppen), Nordeuropa (Tundra, Nadelwälder), Gebirge (Höhenstufen der Vegetation).",
+            "Der Golfstrom ist eine warme Meeresströmung, die in der Karibik beginnt und entlang der US-Ostküste nach Norden fliesst. Der Nordatlantikstrom ist seine Fortsetzung Richtung Europa und sorgt dort für ein milderes Klima. Entstehung durch Temperatur- und Salzgehaltsunterschiede sowie Winde. Folgen: Milderung des Klimas in Westeuropa.",
+            "Westeuropa hat durch den warmen Nordatlantikstrom ein deutlich milderes Klima als Ostkanada, obwohl beide Regionen auf ähnlicher geografischer Breite liegen. In Westeuropa sind die Winter milder und die Temperaturunterschiede zwischen Sommer und Winter geringer.",
+            "Detaillierte Kenntnis der atlantischen Meeresströmungen: Golfstrom, Nordatlantikstrom, Kanarenstrom, etc. Verständnis ihrer Zusammenhänge und Auswirkungen auf das Klima.",
+            "Vertieftes Wissen über den Golfstrom: Entstehung, Verlauf, Bedeutung für das europäische Klima, mögliche Auswirkungen des Klimawandels auf die Strömung.",
+            "Verständnis der Klimawandeltrends: Globale Erwärmung, Meeresspiegelanstieg, Veränderung von Niederschlagsmustern. Kenntnis der Ursachen (Treibhausgase) und möglicher Folgen. Interpretation von Klimadiagrammen und -statistiken.",
+            "Die Quietsche-Enten-Geschichte zeigt, wie Wissenschaftler Meeresströmungen erforschen können. Tausende Badeenten fielen von einem Frachtschiff und verteilten sich durch Meeresströmungen weltweit, was neue Erkenntnisse über Strömungsmuster lieferte.",
+            "Meerestiere nutzen Strömungen für Wanderungen, Nahrungssuche und Fortpflanzung. Beispiele sind Schildkröten, die den Golfstrom für ihre Wanderungen nutzen, oder Fische, die in bestimmten Strömungen laichen.",
+            "Kenntnis der Fachbegriffe aus beiden Rätseln zum Thema Klima, einschliesslich ihrer Bedeutung und Zusammenhänge im Klimasystem."
+        ];
+
+        let currentAnswerType = 'short';
+
+        function displayFlashcards() {
+            const container = document.getElementById('flashcards-container');
+            container.innerHTML = '';
+
+            learningGoals.forEach((goal, index) => {
+                const card = document.createElement('div');
+                card.className = 'col-md-6 col-lg-4';
+                card.innerHTML = `
+                    <div class="card h-100">
+                        <div class="card-body">
+                            <h5 class="card-title">Lernziel ${index + 1}</h5>
+                            <p class="card-text">${goal}</p>
+                            <div class="answer short-answer">${shortAnswers[index] || 'Keine kurze Antwort verfügbar'}</div>
+                            <div class="answer long-answer">${longAnswers[index] || 'Keine ausführliche Antwort verfügbar'}</div>
+                            <button class="btn btn-outline-primary mt-3" onclick="toggleAnswer(${index})">
+                                Antwort anzeigen
+                            </button>
+                        </div>
+                    </div>
+                `;
+                container.appendChild(card);
+            });
+        }
+
+        function toggleAnswer(index) {
+            const card = document.querySelectorAll('.card')[index];
+            const answerType = currentAnswerType === 'short' ? '.short-answer' : '.long-answer';
+            const answer = card.querySelector(answerType);
+            
+            if (answer.classList.contains('active-answer')) {
+                answer.classList.remove('active-answer');
+            } else {
+                answer.classList.add('active-answer');
+            }
+        }
+
+        function toggleAnswerType(type) {
+            currentAnswerType = type;
+            document.querySelectorAll('.answer').forEach(answer => {
+                answer.classList.remove('active-answer');
+            });
+            
+            document.querySelectorAll('.btn-toggle').forEach(btn => {
+                btn.classList.remove('btn-primary', 'btn-secondary');
+                btn.classList.add(btn.textContent.includes(type === 'short' ? 'Kurze' : 'Ausführliche') ? 'btn-primary' : 'btn-secondary');
+            });
+        }
+
+        // Display flashcards when page loads
+        window.addEventListener('load', displayFlashcards);
+    </script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>

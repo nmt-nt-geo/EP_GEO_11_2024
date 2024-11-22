@@ -1,0 +1,274 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>NT Klima Quiz</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <style>
+        .feedback {
+            display: none;
+            margin-top: 1rem;
+            padding: 1rem;
+            border-radius: 0.25rem;
+            animation: fadeIn 0.5s;
+        }
+        .correct {
+            background-color: #d4edda;
+            color: #155724;
+            border: 1px solid #c3e6cb;
+        }
+        .incorrect {
+            background-color: #f8d7da;
+            color: #721c24;
+            border: 1px solid #f5c6cb;
+        }
+        @keyframes fadeIn {
+            from { opacity: 0; }
+            to { opacity: 1; }
+        }
+        .option {
+            cursor: pointer;
+            transition: background-color 0.3s;
+        }
+        .option:hover {
+            background-color: #f8f9fa;
+        }
+        .option.selected {
+            background-color: #e9ecef;
+        }
+        #quiz-container {
+            max-width: 800px;
+            margin: 0 auto;
+        }
+        .progress {
+            height: 2rem;
+        }
+    </style>
+</head>
+<body class="bg-light">
+    <div class="container py-5">
+        <div id="quiz-container">
+            <h1 class="text-center mb-4">NT Klima Quiz</h1>
+            
+            <!-- Quiz Setup Screen -->
+            <div id="setup-screen" class="text-center">
+                <h3 class="mb-4">Wähle die Anzahl der Fragen:</h3>
+                <div class="btn-group mb-4" role="group">
+                    <button class="btn btn-outline-primary" onclick="startQuiz(15)">15 Fragen</button>
+                    <button class="btn btn-outline-primary" onclick="startQuiz(25)">25 Fragen</button>
+                    <button class="btn btn-outline-primary" onclick="startQuiz('all')">Alle Fragen</button>
+                </div>
+            </div>
+
+            <!-- Quiz Progress -->
+            <div id="quiz-progress" style="display: none;" class="mb-4">
+                <div class="progress">
+                    <div class="progress-bar" role="progressbar" style="width: 0%"></div>
+                </div>
+                <div class="text-center mt-2">
+                    <span id="progress-text">Frage 0 von 0</span>
+                    <span class="ms-3">Punktzahl: <span id="score">0</span></span>
+                </div>
+            </div>
+
+            <!-- Question Container -->
+            <div id="question-container" style="display: none;">
+                <div class="card mb-4">
+                    <div class="card-body">
+                        <h5 class="card-title" id="question-text"></h5>
+                        <div id="options-container" class="mt-4"></div>
+                        <div id="feedback" class="feedback"></div>
+                    </div>
+                </div>
+                <div class="text-center">
+                    <button id="next-button" class="btn btn-primary" style="display: none;" onclick="nextQuestion()">
+                        Nächste Frage
+                    </button>
+                </div>
+            </div>
+
+            <!-- Results Screen -->
+            <div id="results-screen" style="display: none;" class="text-center">
+                <h2 class="mb-4">Quiz beendet!</h2>
+                <div class="card mb-4">
+                    <div class="card-body">
+                        <h3>Deine Punktzahl: <span id="final-score">0</span></h3>
+                        <p>Richtige Antworten: <span id="correct-answers">0</span></p>
+                        <p>Gesamtfragen: <span id="total-questions">0</span></p>
+                    </div>
+                </div>
+                <button class="btn btn-primary" onclick="resetQuiz()">Neues Quiz starten</button>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Embedded quiz questions and answers
+        const questions = [
+            {
+                question: "Was beschreibt das Klima einer Region?",
+                options: [
+                    "Die Wetterbedingungen an einem bestimmten Tag",
+                    "Die durchschnittlichen Wetterbedingungen über einen langen Zeitraum",
+                    "Die maximale Temperatur eines Jahres",
+                    "Die Niederschlagsmenge eines Monats"
+                ],
+                correctAnswer: "B",
+                explanation: "Klima beschreibt langfristige Muster, während Wetter kurzfristige Ereignisse betrifft."
+            },
+            {
+                question: "Welcher Zeitraum wird typischerweise zur Bestimmung des Klimas verwendet?",
+                options: [
+                    "1 Jahr",
+                    "5 Jahre",
+                    "10 Jahre",
+                    "30 Jahre"
+                ],
+                correctAnswer: "D",
+                explanation: "Zur Bestimmung des Klimas werden mindestens 30 Jahre Daten verwendet, um langfristige Trends zu erkennen."
+            },
+            {
+                question: "Was zeigt die rote Linie in einem Walter-Klimadiagramm?",
+                options: [
+                    "Niederschlag",
+                    "Temperatur",
+                    "Luftfeuchtigkeit",
+                    "Sonnenscheindauer"
+                ],
+                correctAnswer: "B",
+                explanation: "Die rote Linie in Walter-Klimadiagrammen repräsentiert die Temperaturkurve."
+            },
+            {
+                question: "Welche Skalierung wird in Walter-Klimadiagrammen verwendet?",
+                options: [
+                    "5 °C entsprechen 10 mm Niederschlag",
+                    "10 °C entsprechen 20 mm Niederschlag",
+                    "15 °C entsprechen 30 mm Niederschlag",
+                    "20 °C entsprechen 40 mm Niederschlag"
+                ],
+                correctAnswer: "B",
+                explanation: "Diese Skalenanpassung wird verwendet, um Temperatur und Niederschlag grafisch vergleichbar zu machen."
+            },
+            {
+                question: "Was bedeutet es, wenn die Temperaturkurve über der Niederschlagskurve liegt?",
+                options: [
+                    "Humiden Bedingungen",
+                    "Ariden Bedingungen",
+                    "Normalen Bedingungen",
+                    "Extremen Bedingungen"
+                ],
+                correctAnswer: "B",
+                explanation: "'Arid' bedeutet trocken, und eine Temperaturkurve über der Niederschlagskurve zeigt Wasserdefizit."
+            }
+        ];
+
+        let currentQuestions = [];
+        let currentQuestionIndex = 0;
+        let score = 0;
+        let totalQuestions = 0;
+
+        function startQuiz(numQuestions) {
+            // Reset quiz state
+            currentQuestionIndex = 0;
+            score = 0;
+            
+            // Set total questions
+            totalQuestions = numQuestions === 'all' ? questions.length : Math.min(numQuestions, questions.length);
+            
+            // Shuffle questions and take required number
+            currentQuestions = [...questions]
+                .sort(() => Math.random() - 0.5)
+                .slice(0, totalQuestions);
+            
+            // Update UI
+            document.getElementById('setup-screen').style.display = 'none';
+            document.getElementById('quiz-progress').style.display = 'block';
+            document.getElementById('question-container').style.display = 'block';
+            
+            displayQuestion();
+            updateProgress();
+        }
+
+        function displayQuestion() {
+            const question = currentQuestions[currentQuestionIndex];
+            document.getElementById('question-text').textContent = question.question;
+            
+            const optionsContainer = document.getElementById('options-container');
+            optionsContainer.innerHTML = '';
+            
+            question.options.forEach((option, index) => {
+                const optionElement = document.createElement('div');
+                optionElement.className = 'option card p-3 mb-2';
+                optionElement.textContent = `${String.fromCharCode(65 + index)}) ${option}`;
+                optionElement.onclick = () => selectAnswer(index);
+                optionsContainer.appendChild(optionElement);
+            });
+
+            document.getElementById('feedback').style.display = 'none';
+            document.getElementById('next-button').style.display = 'none';
+        }
+
+        function selectAnswer(index) {
+            const question = currentQuestions[currentQuestionIndex];
+            const correctIndex = question.correctAnswer.charCodeAt(0) - 65;
+            const feedback = document.getElementById('feedback');
+            
+            // Mark selected option
+            document.querySelectorAll('.option').forEach(opt => opt.classList.remove('selected'));
+            document.querySelectorAll('.option')[index].classList.add('selected');
+            
+            // Show feedback
+            feedback.style.display = 'block';
+            if (index === correctIndex) {
+                feedback.className = 'feedback correct';
+                feedback.innerHTML = `<strong>Richtig!</strong><br>${question.explanation}`;
+                score++;
+            } else {
+                feedback.className = 'feedback incorrect';
+                feedback.innerHTML = `<strong>Falsch.</strong> Die richtige Antwort ist ${question.correctAnswer}).<br>${question.explanation}`;
+            }
+            
+            document.getElementById('score').textContent = score;
+            document.getElementById('next-button').style.display = 'block';
+            
+            // Disable options after answer
+            document.querySelectorAll('.option').forEach(opt => opt.style.pointerEvents = 'none');
+        }
+
+        function nextQuestion() {
+            currentQuestionIndex++;
+            
+            if (currentQuestionIndex < totalQuestions) {
+                displayQuestion();
+                updateProgress();
+            } else {
+                showResults();
+            }
+        }
+
+        function updateProgress() {
+            const progress = ((currentQuestionIndex + 1) / totalQuestions) * 100;
+            document.querySelector('.progress-bar').style.width = `${progress}%`;
+            document.getElementById('progress-text').textContent = 
+                `Frage ${currentQuestionIndex + 1} von ${totalQuestions}`;
+        }
+
+        function showResults() {
+            document.getElementById('question-container').style.display = 'none';
+            document.getElementById('quiz-progress').style.display = 'none';
+            document.getElementById('results-screen').style.display = 'block';
+            
+            document.getElementById('final-score').textContent = score;
+            document.getElementById('correct-answers').textContent = score;
+            document.getElementById('total-questions').textContent = totalQuestions;
+        }
+
+        function resetQuiz() {
+            document.getElementById('results-screen').style.display = 'none';
+            document.getElementById('setup-screen').style.display = 'block';
+        }
+    </script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>
