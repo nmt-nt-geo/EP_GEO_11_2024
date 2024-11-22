@@ -173,13 +173,14 @@
             currentQuestionIndex = 0;
             score = 0;
             
-            // Set total questions
-            totalQuestions = numQuestions === 'all' ? questions.length : Math.min(numQuestions, questions.length);
+            // Set total questions based on user selection
+            totalQuestions = numQuestions === 'all' ? questions.length : parseInt(numQuestions);
             
-            // Shuffle questions and take required number
-            currentQuestions = [...questions]
-                .sort(() => Math.random() - 0.5)
-                .slice(0, totalQuestions);
+            // Create a copy of all questions and shuffle them
+            let shuffledQuestions = [...questions].sort(() => Math.random() - 0.5);
+            
+            // Take only the requested number of questions
+            currentQuestions = shuffledQuestions.slice(0, totalQuestions);
             
             // Update UI
             document.getElementById('setup-screen').style.display = 'none';
