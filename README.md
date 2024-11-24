@@ -1,6 +1,6 @@
 # NT Klima Learning Apps
 
-This repository contains two web applications to help students learn about climate:
+This repository contains three interactive web applications to help students learn about climate:
 
 1. **Flashcards App** (`flashcards.html`)
    - Review learning goals with short and long answers
@@ -13,19 +13,39 @@ This repository contains two web applications to help students learn about clima
    - Get immediate feedback and explanations
    - See your final score
 
+3. **Learning Goals App** (`lernziele.html`)
+   - Interactive flipcards for all 17 learning goals
+   - Comprehensive explanations for each goal
+   - Click to flip between question and answer
+   - Easy navigation between learning goals
+   - Topics include:
+     * Weather vs Climate
+     * Climate diagrams and calculations
+     * European climate types
+     * Geographical factors affecting climate
+     * Ocean currents and wind systems
+     * Vegetation's role in climate
+
 ## How to Use
 
 ### Local Usage
 1. Download or clone this repository
-2. Open either `flashcards.html` or `quiz.html` in your web browser
+2. Open any of the HTML files in your web browser:
+   - `flashcards.html` for flashcards
+   - `quiz.html` for the quiz
+   - `lernziele.html` for learning goals
 
 ### Online Usage
-You can access these apps directly through GitHub Pages (if hosted) at:
-- Flashcards: [your-github-username.github.io/repo-name/flashcards.html]
-- Quiz: [your-github-username.github.io/repo-name/quiz.html]
+Access these apps directly through GitHub Pages:
+- https://nmt-nt-geo.github.io/EP_GEO_11_2024/
+- https://nmt-nt-geo.github.io/EP_GEO_11_2024/flashcards.html
+- https://nmt-nt-geo.github.io/EP_GEO_11_2024/quiz.html
+- https://nmt-nt-geo.github.io/EP_GEO_11_2024/lernziele.html
 
 ## Features
 - Responsive design that works on both desktop and mobile
 - No installation required
 - Works offline once loaded
 - Simple and intuitive interface
+- German language content
+- Bootstrap-based modern UI
