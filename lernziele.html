@@ -1,0 +1,482 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Klima Lernziele</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+    <style>
+        .flip-card {
+            background-color: transparent;
+            width: 100%;
+            height: 400px;
+            perspective: 1000px;
+            margin: 20px auto;
+            max-width: 800px;
+        }
+
+        .flip-card-inner {
+            position: relative;
+            width: 100%;
+            height: 100%;
+            transition: transform 0.6s;
+            transform-style: preserve-3d;
+            cursor: pointer;
+        }
+
+        .flip-card.flipped .flip-card-inner {
+            transform: rotateY(180deg);
+        }
+
+        .flip-card-front, .flip-card-back {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            backface-visibility: hidden;
+            display: flex;
+            padding: 20px;
+            border-radius: 10px;
+        }
+
+        .flip-card-front {
+            background-color: #f8f9fa;
+            border: 2px solid #dee2e6;
+            align-items: center;
+            justify-content: center;
+            text-align: center;
+        }
+
+        .flip-card-back {
+            background-color: #e9ecef;
+            border: 2px solid #dee2e6;
+            transform: rotateY(180deg);
+            overflow-y: auto;
+            align-items: flex-start;
+            justify-content: flex-start;
+            text-align: left;
+        }
+
+        .card-content {
+            max-width: 90%;
+        }
+
+        .navigation-buttons {
+            margin: 20px auto;
+            text-align: center;
+        }
+
+        #progress {
+            margin: 20px auto;
+            text-align: center;
+        }
+    </style>
+</head>
+<body>
+    <div class="container mt-5">
+        <h1 class="mb-4">Klima Lernziele</h1>
+        
+        <div id="progress" class="mb-3">
+            <span id="current-card">1</span>/<span id="total-cards">17</span>
+        </div>
+
+        <div class="flip-card">
+            <div class="flip-card-inner">
+                <div class="flip-card-front">
+                    <div class="card-content">
+                        <h3>Lernziel 1</h3>
+                        <p>Unterschied zwischen Wetter und Klima</p>
+                    </div>
+                </div>
+                <div class="flip-card-back">
+                    <div class="card-content">
+                        <h3>Antwort:</h3>
+                        <p><strong>Wetter</strong> bezeichnet den aktuellen Zustand der Atmosphäre an einem bestimmten Ort zu einem bestimmten Zeitpunkt. Es umfasst Faktoren wie Temperatur, Niederschlag, Wind und Bewölkung und kann sich innerhalb von Stunden oder Tagen ändern.</p>
+                        <p><strong>Klima</strong> hingegen beschreibt die durchschnittlichen Wetterbedingungen in einem bestimmten Gebiet über einen längeren Zeitraum, typischerweise 30 Jahre oder mehr. Es gibt Aufschluss über typische Wetterverhältnisse und jahreszeitliche Muster einer Region.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="navigation-buttons">
+            <button class="btn btn-primary me-2" onclick="previousCard()">Vorherige</button>
+            <button class="btn btn-primary" onclick="nextCard()">Nächste</button>
+        </div>
+    </div>
+
+    <script>
+        const cards = [
+            {
+                title: "Lernziel 1",
+                question: "Unterschied zwischen Wetter und Klima",
+                answer: `<p><strong>Wetter</strong> bezeichnet den aktuellen Zustand der Atmosphäre an einem bestimmten Ort zu einem bestimmten Zeitpunkt. Es umfasst Faktoren wie Temperatur, Niederschlag, Wind und Bewölkung und kann sich innerhalb von Stunden oder Tagen ändern.</p>
+                        <p><strong>Klima</strong> hingegen beschreibt die durchschnittlichen Wetterbedingungen in einem bestimmten Gebiet über einen längeren Zeitraum, typischerweise 30 Jahre oder mehr. Es gibt Aufschluss über typische Wetterverhältnisse und jahreszeitliche Muster einer Region.</p>`
+            },
+            {
+                title: "Lernziel 2",
+                question: "Zeichnen eines Walter-Klimadiagramms",
+                answer: `<p>Ein Walter-Klimadiagramm stellt die durchschnittlichen monatlichen Temperaturen und Niederschlagsmengen eines Ortes grafisch dar. So erstellst du ein solches Diagramm:</p>
+                        <ul>
+                            <li>Daten sammeln: Recherchiere die durchschnittlichen monatlichen Temperaturen (in °C) und Niederschlagsmengen (in mm) für den gewünschten Ort.</li>
+                            <li>Achsen erstellen: Zeichne ein Koordinatensystem mit den Monaten (Januar bis Dezember) auf der horizontalen Achse. Die linke vertikale Achse zeigt die Temperatur in °C, die rechte den Niederschlag in mm.</li>
+                            <li>Beachte: Die Niederschlagsachse ist doppelt so hoch skaliert wie die Temperaturachse (z.B. 1 cm = 10 °C und 1 cm = 20 mm Niederschlag).</li>
+                            <li>Daten eintragen: Trage die Temperaturwerte als Punkte ein und verbinde sie zu einer Linie. Die Niederschlagswerte kannst du als Balken oder ebenfalls als Linie darstellen.</li>
+                            <li>Interpretation: Bereiche, in denen die Niederschlagskurve über der Temperaturkurve liegt, sind humid (feucht). Liegt die Temperaturkurve darüber, ist es arid (trocken).</li>
+                        </ul>`
+            },
+            {
+                title: "Lernziel 3",
+                question: "Werte aus einem Klimadiagramm ablesen und interpretieren",
+                answer: `<p>Ein Klimadiagramm liefert wichtige Informationen über:</p>
+                        <ul>
+                            <li>Monatliche Durchschnittstemperaturen: Ablesbar an der Temperaturkurve.</li>
+                            <li>Monatliche Niederschlagsmengen: Sichtbar als Balken oder Kurve.</li>
+                            <li>Humide und aride Phasen: Erkennbar durch das Verhältnis von Temperatur- und Niederschlagskurve.</li>
+                        </ul>
+                        <p>Durch die Analyse dieser Daten kannst du Aussagen über das Klima eines Ortes treffen, z.B. über Trocken- oder Regenzeiten.</p>`
+            },
+            {
+                title: "Lernziel 4",
+                question: "Berechnung der Jahresdurchschnittstemperatur und der Niederschlagssumme",
+                answer: `<p><strong>Jahresdurchschnittstemperatur:</strong> Addiere alle monatlichen Durchschnittstemperaturen und teile die Summe durch 12.</p>
+                        <p><strong>Jahresniederschlagssumme:</strong> Addiere alle monatlichen Niederschlagsmengen.</p>
+                        <p>Beispiel:</p>
+                        <ul>
+                            <li>Temperaturen: 5, 6, 10, 15, 20, 25, 30, 28, 22, 16, 10, 6 (in °C)</li>
+                            <li>Summe: 193 °C</li>
+                            <li>Jahresdurchschnitt: 193 °C / 12 = 16,08 °C</li>
+                            <li>Niederschlag: 50, 40, 60, 70, 80, 90, 100, 90, 80, 70, 60, 50 (in mm)</li>
+                            <li>Summe: 840 mm</li>
+                        </ul>`
+            },
+            {
+                title: "Lernziel 5",
+                question: "Erklärung der Begriffe 'arid' und 'humid'",
+                answer: `<p><strong>Arid:</strong> Bezeichnet trockene Klimabedingungen, bei denen die Verdunstung höher ist als der Niederschlag. Typisch für Wüstenregionen.</p>
+                        <p><strong>Humid:</strong> Beschreibt feuchte Klimabedingungen, bei denen der Niederschlag die Verdunstung übersteigt. Charakteristisch für tropische Regenwälder.</p>`
+            },
+            {
+                title: "Lernziel 6",
+                question: "Beschreibung und Kartierung der 6 europäischen Klimatypen",
+                answer: `<p>Europa weist folgende Klimatypen auf:</p>
+                        <ul>
+                            <li><strong>Subpolares Klima:</strong> Kalte Winter, kühle Sommer; z.B. Nordskandinavien.</li>
+                            <li><strong>Kontinentales Klima:</strong> Große Temperaturunterschiede zwischen Sommer und Winter; z.B. Osteuropa.</li>
+                            <li><strong>Ozeanisches Klima:</strong> Milde Winter, kühle Sommer, ganzjährig Niederschlag; z.B. Westeuropa.</li>
+                            <li><strong>Mittelmeerklima:</strong> Heiße, trockene Sommer, milde, feuchte Winter; z.B. Südeuropa.</li>
+                            <li><strong>Gebirgsklima:</strong> Niedrige Temperaturen, hoher Niederschlag; z.B. Alpenregion.</li>
+                            <li><strong>Steppenklima:</strong> Trockene Bedingungen, heiße Sommer, kalte Winter; z.B. Teile Spaniens.</li>
+                        </ul>
+                        <p>Diese Klimazonen kannst du auf einer Europakarte einzeichnen, indem du die jeweiligen Regionen entsprechend markierst.</p>`
+            },
+            {
+                title: "Lernziel 7",
+                question: "Zuordnung von Klimadiagrammen zu europäischen Klimatypen",
+                answer: `<p>Anhand der Temperatur- und Niederschlagsmuster in einem Klimadiagramm kannst du den entsprechenden Klimatyp identifizieren.</p>
+                        <p>Charakteristische Merkmale:</p>
+                        <ul>
+                            <li><strong>Subpolares Klima:</strong> Sehr kalte Winter, kurze kühle Sommer</li>
+                            <li><strong>Kontinentales Klima:</strong> Große Temperaturunterschiede zwischen Sommer und Winter</li>
+                            <li><strong>Ozeanisches Klima:</strong> Geringe Temperaturschwankungen, ganzjährig Niederschlag</li>
+                            <li><strong>Mittelmeerklima:</strong> Hohe Sommertemperaturen, geringe Sommerniederschläge</li>
+                            <li><strong>Gebirgsklima:</strong> Niedrige Temperaturen, hohe Niederschläge</li>
+                            <li><strong>Steppenklima:</strong> Große Temperaturschwankungen, geringe Niederschläge</li>
+                        </ul>`
+            },
+            {
+                title: "Lernziel 8",
+                question: "Zuordnung von Landschaftsabbildungen zu europäischen Klimatypen",
+                answer: `<p>Landschaften reflektieren oft das vorherrschende Klima:</p>
+                        <ul>
+                            <li><strong>Dichte Wälder:</strong> Ozeanisches Klima</li>
+                            <li><strong>Olivenhaine und Zypressen:</strong> Mittelmeerklima</li>
+                            <li><strong>Tundra:</strong> Subpolares Klima</li>
+                            <li><strong>Steppenlandschaften:</strong> Steppenklima</li>
+                            <li><strong>Alpine Vegetation:</strong> Gebirgsklima</li>
+                            <li><strong>Laubwälder:</strong> Kontinentales Klima</li>
+                        </ul>
+                        <p>Durch die Analyse von Vegetation und Landschaftsmerkmalen kannst du Rückschlüsse auf den Klimatyp ziehen.</p>`
+            },
+            {
+                title: "Lernziel 9",
+                question: "Zuordnung von Städten zu ihren Klimazonen",
+                answer: `<p>Beispiele wichtiger europäischer Städte und ihre Klimazonen:</p>
+                        <ul>
+                            <li><strong>Oslo, Norwegen:</strong> Subpolare Zone - kalte Winter, kühle Sommer</li>
+                            <li><strong>Berlin, Deutschland:</strong> Gemäßigte Zone - gemäßigtes Klima mit deutlichen Jahreszeiten</li>
+                            <li><strong>Rom, Italien:</strong> Subtropische Zone - Mittelmeerklima mit heißen, trockenen Sommern</li>
+                            <li><strong>Madrid, Spanien:</strong> Subtropische Zone mit kontinentalem Einfluss</li>
+                            <li><strong>Moskau, Russland:</strong> Kontinentale Zone - extrem kalte Winter, warme Sommer</li>
+                            <li><strong>London, Großbritannien:</strong> Gemäßigte Zone - ozeanisches Klima mit milden Wintern</li>
+                            <li><strong>Helsinki, Finnland:</strong> Subpolare Zone - lange, kalte Winter</li>
+                            <li><strong>Lissabon, Portugal:</strong> Subtropische Zone mit maritimem Einfluss</li>
+                        </ul>`
+            },
+            {
+                title: "Lernziel 10",
+                question: "Die drei Klimaaufzählregeln und ihre genaue Erklärung",
+                answer: `<p>Die drei Klimaaufzählregeln sind grundlegende Prinzipien zur Charakterisierung des Klimas:</p>
+                        <ol>
+                            <li><strong>Temperaturverlauf:</strong>
+                                <ul>
+                                    <li>Jahresmitteltemperatur</li>
+                                    <li>Temperaturamplitude (Differenz zwischen höchster und niedrigster Monatstemperatur)</li>
+                                    <li>Saisonale Schwankungen</li>
+                                </ul>
+                            </li>
+                            <li><strong>Niederschlagsverteilung:</strong>
+                                <ul>
+                                    <li>Gesamtniederschlag im Jahr</li>
+                                    <li>Verteilung (gleichmäßig oder Trocken-/Regenzeiten)</li>
+                                </ul>
+                            </li>
+                            <li><strong>Humidität und Aridität:</strong>
+                                <ul>
+                                    <li>Humid: Niederschlag > potenzielle Verdunstung</li>
+                                    <li>Arid: Potenzielle Verdunstung > Niederschlag</li>
+                                </ul>
+                            </li>
+                        </ol>`
+            },
+            {
+                title: "Lernziel 11",
+                question: "Erklärung der Entstehung von Jahreszeiten",
+                answer: `<p>Die Jahreszeiten entstehen durch:</p>
+                        <ol>
+                            <li><strong>Erdachsenneigung:</strong>
+                                <ul>
+                                    <li>Die Erde ist um 23,5° geneigt</li>
+                                    <li>Diese Neigung bleibt während des Erdumlaufs konstant</li>
+                                </ul>
+                            </li>
+                            <li><strong>Umlauf um die Sonne:</strong>
+                                <ul>
+                                    <li>Sommer: Nordhalbkugel ist der Sonne zugeneigt</li>
+                                    <li>Winter: Nordhalbkugel ist von der Sonne weggeneigt</li>
+                                    <li>Frühling/Herbst: Übergangsphasen mit mittlerer Sonneneinstrahlung</li>
+                                </ul>
+                            </li>
+                            <li><strong>Auswirkungen:</strong>
+                                <ul>
+                                    <li>Unterschiedliche Einstrahlungswinkel der Sonne</li>
+                                    <li>Verschiedene Tageslängen</li>
+                                    <li>Variierende Erwärmung der Erdoberfläche</li>
+                                </ul>
+                            </li>
+                        </ol>`
+            },
+            {
+                title: "Lernziel 12",
+                question: "Die Bedeutung der Meeresströmungen für das Klima in Europa",
+                answer: `<p>Meeresströmungen haben einen entscheidenden Einfluss auf das europäische Klima:</p>
+                        <ol>
+                            <li><strong>Golfstrom und Nordatlantikstrom:</strong>
+                                <ul>
+                                    <li>Transport warmen Wassers aus der Karibik</li>
+                                    <li>Erwärmung der westeuropäischen Küsten</li>
+                                    <li>Mildere Winter in Westeuropa</li>
+                                </ul>
+                            </li>
+                            <li><strong>Auswirkungen:</strong>
+                                <ul>
+                                    <li>Temperaturen bis zu 10°C wärmer als auf gleicher Breite in Nordamerika</li>
+                                    <li>Eisfreie Häfen in Norwegen trotz nördlicher Lage</li>
+                                    <li>Erhöhte Verdunstung und Niederschläge</li>
+                                </ul>
+                            </li>
+                            <li><strong>Kalte Strömungen:</strong>
+                                <ul>
+                                    <li>Ostgrönlandstrom bringt kaltes Wasser</li>
+                                    <li>Beeinflusst das Klima in Island und Nordskandinavien</li>
+                                </ul>
+                            </li>
+                        </ol>`
+            },
+            {
+                title: "Lernziel 13",
+                question: "Die Bedeutung der Höhenlage für das Klima",
+                answer: `<p>Die Höhenlage beeinflusst das Klima auf mehrere Arten:</p>
+                        <ol>
+                            <li><strong>Temperaturabnahme mit der Höhe:</strong>
+                                <ul>
+                                    <li>Durchschnittlich 0,6°C pro 100 Höhenmeter</li>
+                                    <li>Entstehung von Höhenstufen der Vegetation</li>
+                                </ul>
+                            </li>
+                            <li><strong>Niederschlag:</strong>
+                                <ul>
+                                    <li>Zunahme mit der Höhe durch Steigungsregen</li>
+                                    <li>Luv-Lee-Effekt an Gebirgen</li>
+                                    <li>Häufigere Niederschläge auf der Luvseite</li>
+                                </ul>
+                            </li>
+                            <li><strong>Besondere Klimaphänomene:</strong>
+                                <ul>
+                                    <li>Föhn: Warmer Fallwind auf der Lee-Seite</li>
+                                    <li>Talwinde: Tag-Nacht-Zirkulation</li>
+                                    <li>Permafrost in großen Höhen</li>
+                                </ul>
+                            </li>
+                        </ol>`
+            },
+            {
+                title: "Lernziel 14",
+                question: "Die Bedeutung der Lage zu den Meeren für das Klima",
+                answer: `<p>Die Entfernung zum Meer beeinflusst das Klima wesentlich:</p>
+                        <ol>
+                            <li><strong>Maritime Lage (Meernähe):</strong>
+                                <ul>
+                                    <li>Ausgeglichene Temperaturen über das Jahr</li>
+                                    <li>Milde Winter und kühle Sommer</li>
+                                    <li>Hohe Luftfeuchtigkeit und Niederschläge</li>
+                                    <li>Beispiel: Britische Inseln</li>
+                                </ul>
+                            </li>
+                            <li><strong>Kontinentale Lage (Meerferne):</strong>
+                                <ul>
+                                    <li>Große Temperaturschwankungen</li>
+                                    <li>Heiße Sommer und kalte Winter</li>
+                                    <li>Geringere Niederschläge</li>
+                                    <li>Beispiel: Russland</li>
+                                </ul>
+                            </li>
+                            <li><strong>Übergangsformen:</strong>
+                                <ul>
+                                    <li>Graduelle Veränderung von maritim zu kontinental</li>
+                                    <li>Abnehmender Meereseinfluss mit zunehmender Entfernung</li>
+                                    <li>Beispiel: Deutschland (West nach Ost)</li>
+                                </ul>
+                            </li>
+                        </ol>`
+            },
+            {
+                title: "Lernziel 15",
+                question: "Die Bedeutung der geografischen Breite für das Klima",
+                answer: `<p>Die geografische Breite hat einen fundamentalen Einfluss auf das Klima:</p>
+                        <ol>
+                            <li><strong>Sonneneinstrahlung:</strong>
+                                <ul>
+                                    <li>Äquator: Steiler Einstrahlungswinkel (90°)</li>
+                                    <li>Pole: Flacher Einstrahlungswinkel</li>
+                                    <li>Je flacher der Winkel, desto weniger Energie pro Fläche</li>
+                                </ul>
+                            </li>
+                            <li><strong>Klimazonen:</strong>
+                                <ul>
+                                    <li>Tropische Zone (0° - 23,5°)</li>
+                                    <li>Subtropische Zone (23,5° - 40°)</li>
+                                    <li>Gemäßigte Zone (40° - 60°)</li>
+                                    <li>Subpolare Zone (60° - 66,5°)</li>
+                                    <li>Polare Zone (66,5° - 90°)</li>
+                                </ul>
+                            </li>
+                            <li><strong>Tageslängen:</strong>
+                                <ul>
+                                    <li>Äquator: Gleichmäßige Tag-Nacht-Länge</li>
+                                    <li>Pole: Polartag und Polarnacht</li>
+                                    <li>Dazwischen: Jahreszeitlich bedingte Schwankungen</li>
+                                </ul>
+                            </li>
+                        </ol>`
+            },
+            {
+                title: "Lernziel 16",
+                question: "Die Bedeutung der vorherrschenden Windrichtung für das Klima",
+                answer: `<p>Die vorherrschende Windrichtung beeinflusst das lokale und regionale Klima:</p>
+                        <ol>
+                            <li><strong>Westwindzone in Europa:</strong>
+                                <ul>
+                                    <li>Transport feuchter Meeresluft vom Atlantik</li>
+                                    <li>Häufige Niederschläge an der Westküste</li>
+                                    <li>Mildernder Einfluss auf Temperaturen</li>
+                                </ul>
+                            </li>
+                            <li><strong>Lokale Windsysteme:</strong>
+                                <ul>
+                                    <li>Land-See-Winde an Küsten</li>
+                                    <li>Berg-Tal-Winde in Gebirgen</li>
+                                    <li>Föhn an Gebirgsketten</li>
+                                </ul>
+                            </li>
+                            <li><strong>Auswirkungen auf:</strong>
+                                <ul>
+                                    <li>Niederschlagsverteilung</li>
+                                    <li>Luftfeuchtigkeit</li>
+                                    <li>Temperaturverhältnisse</li>
+                                    <li>Vegetation und Landwirtschaft</li>
+                                </ul>
+                            </li>
+                        </ol>`
+            },
+            {
+                title: "Lernziel 17",
+                question: "Die Bedeutung der Vegetation für das Klima",
+                answer: `<p>Die Vegetation steht in Wechselwirkung mit dem Klima:</p>
+                        <ol>
+                            <li><strong>Einfluss auf den Wasserkreislauf:</strong>
+                                <ul>
+                                    <li>Verdunstung durch Pflanzen (Transpiration)</li>
+                                    <li>Wasserspeicherung im Boden</li>
+                                    <li>Entstehung von lokalem Niederschlag</li>
+                                </ul>
+                            </li>
+                            <li><strong>Temperaturregulierung:</strong>
+                                <ul>
+                                    <li>Beschattung des Bodens</li>
+                                    <li>Verringerung der Temperaturextreme</li>
+                                    <li>Kühleffekt durch Verdunstung</li>
+                                </ul>
+                            </li>
+                            <li><strong>Weitere Effekte:</strong>
+                                <ul>
+                                    <li>CO₂-Speicherung (Klimaschutz)</li>
+                                    <li>Windschutz und Erosionsschutz</li>
+                                    <li>Beeinflussung der Luftfeuchtigkeit</li>
+                                </ul>
+                            </li>
+                            <li><strong>Beispiele:</strong>
+                                <ul>
+                                    <li>Tropischer Regenwald als Klimaregulator</li>
+                                    <li>Stadtklima mit/ohne Grünflächen</li>
+                                    <li>Wälder als Klimapuffer</li>
+                                </ul>
+                            </li>
+                        </ol>`
+            }
+        ];
+
+        let currentCardIndex = 0;
+
+        function updateCard() {
+            const card = cards[currentCardIndex];
+            document.querySelector('.flip-card-front .card-content').innerHTML = 
+                `<h3>${card.title}</h3><p>${card.question}</p>`;
+            document.querySelector('.flip-card-back .card-content').innerHTML = 
+                `<h3>Antwort:</h3>${card.answer}`;
+            document.getElementById('current-card').textContent = currentCardIndex + 1;
+            document.querySelector('.flip-card').classList.remove('flipped');
+        }
+
+        function nextCard() {
+            if (currentCardIndex < cards.length - 1) {
+                currentCardIndex++;
+                updateCard();
+            }
+        }
+
+        function previousCard() {
+            if (currentCardIndex > 0) {
+                currentCardIndex--;
+                updateCard();
+            }
+        }
+
+        document.querySelector('.flip-card').addEventListener('click', function() {
+            this.classList.toggle('flipped');
+        });
+
+        document.getElementById('total-cards').textContent = cards.length;
+    </script>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>
